@@ -48,10 +48,15 @@ async function handleMessage(message: Message, sender: chrome.runtime.MessageSen
 
     case MessageType.FIELDS_SCANNED: {
       // Content script scanned fields, cache them
+      // Only cache if fields were found (avoid iframe overwriting with empty results, or vice versa)
       const tabId = sender.tab?.id;
       const fieldMap = message.payload as FieldMap;
-      if (tabId && fieldMap) {
-        fieldMapCache.set(tabId, fieldMap);
+      if (tabId && fieldMap && fieldMap.fields.length > 0) {
+        const existing = fieldMapCache.get(tabId);
+        // Keep the result with more fields
+        if (!existing || fieldMap.fields.length > existing.fields.length) {
+          fieldMapCache.set(tabId, fieldMap);
+        }
       }
       return { success: true };
     }
@@ -72,24 +77,78 @@ async function handleMessage(message: Message, sender: chrome.runtime.MessageSen
           return { success: true, data: res.data };
         }
       } catch {
-        // Content script not available
+        // Content script not injected — try dynamic injection
+        try {
+          await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['content.js'],
+          });
+          await new Promise((r) => setTimeout(r, 500));
+          const res = await sendTabMessage<void, FieldMap>(tab.id, MessageType.SCAN_PAGE);
+          if (res.success && res.data) {
+            fieldMapCache.set(tab.id, res.data);
+            return { success: true, data: res.data };
+          }
+        } catch {
+          // Injection failed
+        }
       }
-      return { success: false, error: 'No field map available. Navigate to a job application on Greenhouse or Lever.' };
+      return { success: false, error: 'No field map available. Navigate to a job application and click Scan.' };
     }
 
     case MessageType.SCAN_PAGE: {
-      // Forward scan request to content script
+      // Forward scan request to content script, injecting it first if needed
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab?.id) return { success: false, error: 'No active tab' };
+
+      // Try sending to existing content script first
       try {
         const res = await sendTabMessage<void, FieldMap>(tab.id, MessageType.SCAN_PAGE);
-        if (res.success && res.data) {
+        if (res.success && res.data && res.data.fields.length > 0) {
           fieldMapCache.set(tab.id, res.data);
+          return res;
         }
-        return res;
       } catch {
-        return { success: false, error: 'Could not communicate with the page. Make sure you are on a Greenhouse or Lever job application.' };
+        // Content script not injected yet
       }
+
+      // Dynamically inject content script into all frames (catches embedded Greenhouse iframes)
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id, allFrames: true },
+          files: ['content.js'],
+        });
+      } catch {
+        // Some frames may block injection — that's ok
+      }
+
+      // Wait for iframe content scripts to initialize and send FIELDS_SCANNED
+      await new Promise((r) => setTimeout(r, 1000));
+
+      // Check if any frame cached results via FIELDS_SCANNED
+      const cached = fieldMapCache.get(tab.id);
+      if (cached && cached.fields.length > 0) {
+        return { success: true, data: cached };
+      }
+
+      // Last try: send SCAN_PAGE again to all frames
+      try {
+        const res = await sendTabMessage<void, FieldMap>(tab.id, MessageType.SCAN_PAGE);
+        if (res.success && res.data && res.data.fields.length > 0) {
+          fieldMapCache.set(tab.id, res.data);
+          return res;
+        }
+      } catch {
+        // ignore
+      }
+
+      // Still check cache — iframe may have responded via FIELDS_SCANNED
+      const finalCached = fieldMapCache.get(tab.id);
+      if (finalCached && finalCached.fields.length > 0) {
+        return { success: true, data: finalCached };
+      }
+
+      return { success: false, error: 'No fields found. The form may be loading — try again in a moment.' };
     }
 
     case MessageType.FILL_FIELDS: {
