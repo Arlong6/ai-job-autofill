@@ -1,0 +1,23 @@
+{
+  "name": "ai-job-autofill",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "zip": "cd dist && zip -r ../ai-job-autofill.zip ."
+  },
+  "keywords": ["chrome-extension", "job-application", "autofill", "greenhouse", "lever"],
+  "author": "",
+  "license": "MIT",
+  "description": "AI-powered job application autofill for Greenhouse and Lever ATS platforms",
+  "dependencies": {
+    "preact": "^10.29.1"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.5",
+    "@types/chrome": "^0.1.39",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  }
+}

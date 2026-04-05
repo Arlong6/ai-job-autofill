@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — AI Job Autofill</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      background: #f8f9fa;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      padding: 2.5rem 2rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
+    }
+    .subtitle {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.15rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: #111;
+    }
+    p, li { font-size: 0.95rem; color: #333; }
+    p { margin-bottom: 0.75rem; }
+    ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+    li { margin-bottom: 0.35rem; }
+    .updated {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #777;
+    }
+    a { color: #1a73e8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">AI Job Autofill — Chrome Extension</p>
+
+    <h2>1. Overview</h2>
+    <p>
+      AI Job Autofill is a Chrome extension that helps users auto-fill job
+      applications. This policy explains what data the extension handles, how it
+      is stored, and how it is used. We are committed to transparency and to
+      minimizing data collection.
+    </p>
+
+    <h2>2. Data We Collect and Store</h2>
+    <p>
+      All data is provided voluntarily by you within the extension interface.
+      The extension stores the following information locally on your device
+      using <code>chrome.storage.local</code>:
+    </p>
+    <ul>
+      <li>Personal details: name, email address, phone number</li>
+      <li>Education history</li>
+      <li>Work experience</li>
+      <li>Skills and qualifications</li>
+      <li>EEO demographic information (e.g., gender, race/ethnicity, veteran status) — provided at your discretion</li>
+      <li>Your Gemini API key (stored locally, never transmitted to us)</li>
+    </ul>
+    <p>
+      The extension does <strong>not</strong> collect passwords, financial
+      information, browsing history, analytics, telemetry, or any data beyond
+      what you explicitly enter.
+    </p>
+
+    <h2>3. How Your Data Is Used</h2>
+    <ul>
+      <li><strong>Auto-filling applications:</strong> Your stored profile data is used to populate fields on supported job application sites (boards.greenhouse.io and jobs.lever.co).</li>
+      <li><strong>AI-powered features:</strong> When you use match scoring or cover letter generation, the job description and a summary of your profile/skills are sent to Google's Gemini API for processing.</li>
+    </ul>
+    <p>
+      Your data is never used for advertising, profiling, or any purpose other
+      than the features described above.
+    </p>
+
+    <h2>4. Data Storage and Sync</h2>
+    <p>
+      All data resides on your device in Chrome's local storage. If you have
+      Chrome Sync enabled in your browser, Chrome may sync extension storage
+      data across your signed-in devices using Google's infrastructure. This is
+      controlled entirely by your Chrome settings, not by the extension.
+    </p>
+    <p>
+      No data is sent to any server owned or operated by the extension
+      developer. We do not operate servers, databases, or backend services of
+      any kind.
+    </p>
+
+    <h2>5. Third-Party Services</h2>
+    <p>
+      The only third-party service the extension communicates with is
+      <strong>Google's Gemini API</strong>, and only when you explicitly trigger
+      an AI feature (match scoring or cover letter generation). This
+      communication uses your own API key, which you provide. Data sent to the
+      Gemini API is subject to
+      <a href="https://ai.google.dev/terms" target="_blank" rel="noopener">Google's API Terms of Service</a>.
+    </p>
+    <p>
+      The extension does not use cookies, analytics services, crash reporters,
+      or any other third-party tracking tools.
+    </p>
+
+    <h2>6. Permissions</h2>
+    <p>The extension requests the following Chrome permissions:</p>
+    <ul>
+      <li><strong>storage</strong> — To save your profile data locally.</li>
+      <li><strong>activeTab</strong> — To interact with the current job application page when you activate the extension.</li>
+      <li><strong>scripting</strong> — To inject content scripts that fill form fields on supported job boards.</li>
+    </ul>
+    <p>
+      Content scripts run only on <code>boards.greenhouse.io</code> and
+      <code>jobs.lever.co</code>. The extension does not access or read any
+      other websites.
+    </p>
+
+    <h2>7. Data Security</h2>
+    <p>
+      Your data is stored using Chrome's built-in extension storage APIs, which
+      isolate data to the extension's sandboxed environment. Your Gemini API
+      key is stored locally and is transmitted only to Google's API endpoints
+      over HTTPS when you use AI features. We recommend keeping your browser
+      and extension up to date.
+    </p>
+
+    <h2>8. Your Rights and Data Deletion</h2>
+    <p>You have full control over your data at all times:</p>
+    <ul>
+      <li>You can view, edit, or delete any stored information through the extension's settings.</li>
+      <li>Uninstalling the extension permanently removes all locally stored data.</li>
+      <li>You can revoke your Gemini API key at any time through the Google AI Studio console.</li>
+    </ul>
+
+    <h2>9. GDPR Compliance</h2>
+    <p>
+      Because AI Job Autofill stores all personal data locally on your device
+      and does not transmit it to any developer-controlled server, data
+      processing is performed entirely under your control. When AI features are
+      used, data sent to Google's Gemini API is processed by Google in
+      accordance with their privacy policies and terms. Users in the European
+      Economic Area retain all rights under the General Data Protection
+      Regulation (GDPR), including the rights of access, rectification,
+      erasure, and data portability — all of which can be exercised by managing
+      or removing the extension.
+    </p>
+
+    <h2>10. Children's Privacy</h2>
+    <p>
+      This extension is not directed at children under the age of 13. We do
+      not knowingly collect data from children.
+    </p>
+
+    <h2>11. Changes to This Policy</h2>
+    <p>
+      We may update this privacy policy from time to time. Any changes will be
+      reflected on this page with a revised "Last Updated" date. Continued use
+      of the extension after changes constitutes acceptance of the updated
+      policy.
+    </p>
+
+    <h2>12. Contact</h2>
+    <p>
+      If you have questions or concerns about this privacy policy, please
+      contact us at:
+    </p>
+    <p>
+      <!-- Replace with your actual contact information -->
+      <strong>Email:</strong> <a href="mailto:your-email@example.com">your-email@example.com</a>
+    </p>
+
+    <p class="updated">Last updated: April 2026</p>
+  </div>
+</body>
+</html>
